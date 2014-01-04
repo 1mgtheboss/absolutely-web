@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <style>
+body {
+    color: #fff;
+    background-color: #ee405c;
+    font-family: "Monotype Corsiva", Times, serif;
+}
+
+canvas {
+    background-color: #fff;
+}
+
+input {
+    outline: none;
+}
+    </style>
+
+    <title>Absolutely!</title>
+    <link href="images/Icon.ico" rel="shortcut icon" type="image/x-icon">
+    <script src="js/jquery.js"></script>
+    <script src="js/physicsjs-full-0.5.3.min.js"></script>
+</head>
+
+<body onload="fOnLoad()">
+    Absolutely!
+
+    <table>
+        <tr>
+            <td><canvas height="360" id="viewport" width="712"></canvas></td>
+
+            <td>&nbsp;<input alt="Circle" id="s1" onclick="addCircle()" src=
+            "images/Circle.png" type="image"><br>
+            &nbsp;<input alt="Polygon" id="s2" onclick="addPolygon()" src=
+            "images/Polygon.png" type="image"></td>
+        </tr>
+
+        <tr>
+            <td><input alt="Begin" id="b1" onclick="fBegin()" src=
+            "images/Begin.png" type="image"><input alt="Add Behaviours" id="b2"
+            onclick="addBehaviours()" src="images/AddBehaviours.png" type=
+            "image"><input alt="Finish" id="b3" onclick="fFinish()" src=
+            "images/Finish.png" type="image"><input alt="Show" id="b4" onclick=
+            "show()" src="images/Show.png" type="image"></td>
+
+            <td>
+                <div id="xy" style="text-align:center;font-size:250%;"></div>
+            </td>
+        </tr>
+    </table><br>
+
+    <div id="circle" style="margin-left: 10px;">
+        <b>Circle:</b><br>
+        Use defaults:<input checked="checked" id="cD" type="checkbox"><br>
+
+        <div id="advancedOptionsForCircle">
+            center-x:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="cX"
+            type="text" value="0"><br>
+            center-y:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="cY"
+            type="text" value="0"><br>
+            vx:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="cVx"
+            type="text" value="0"><br>
+            vy:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="cVy"
+            type="text" value="0"><br>
+            angle:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="cA"
+            type="text" value="0"><br>
+            angularVelocity:<input id="cAV" type="text" value="0"><br>
+            fixed:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select id="cF">
+                <option value="true">
+                    Yes
+                </option>
+
+                <option selected="selected" value="false">
+                    No
+                </option>
+            </select><br>
+            mass:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="cM"
+            type="text" value="1.0"><br>
+            restitution:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id=
+            "cRe" type="text" value="1.0"><br>
+            cof:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="cCof"
+            type="text" value="0.8"><br>
+            radius:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="cR"
+            type="text" value="20"><br>
+        </div>
+    </div>
+
+    <div id="polygon" style="margin-left: 10px;">
+        <b>Polygon:</b><br>
+        Use defaults:<input checked="checked" id="pD" type="checkbox">
+
+        <div id="advancedOptionsForPolygon">
+            center-x:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="pX"
+            type="text" value="0"><br>
+            center-y:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="pY"
+            type="text" value="0"><br>
+            vx:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="pVx"
+            type="text" value="0"><br>
+            vy:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="pVy"
+            type="text" value="0"><br>
+            angle:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="pA"
+            type="text" value="0"><br>
+            angularVelocity:<input id="pAV" type="text" value="0"><br>
+            fixed:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select id="pF">
+                <option value="true">
+                    Yes
+                </option>
+
+                <option selected="selected" value="false">
+                    No
+                </option>
+            </select><br>
+            mass:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="pM"
+            type="text" value="1.0"><br>
+            restitution:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id=
+            "pRe" type="text" value="1.0"><br>
+            cof:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="pCof"
+            type="text" value="0.8"><br>
+            Number of vertices:<input id="pV" type="number">
+
+            <div id="vertices"></div>
+        </div>
+    </div>
+
+    <div id="behaviour" style="margin-left: 10px;">
+        <b>Behaviours:</b><br>
+        Use defaults:<input checked="checked" id="bD" type="checkbox">
+
+        <div id="advancedOptionsForBehaviours">
+            Gravity:<input checked="checked" id="gravity" type="checkbox"><br>
+            acc-x:<input id="gAX" type="text" value="0"><br>
+            acc-y:<input id="gAY" type="text" value="0.0004"><br>
+            Newtonian acceleration:<input id="nA" type="checkbox"><br>
+            strength:<input id="nAS" type="text" value="1"><br>
+            Edge collision detection:<input checked="checked" id="eCD" type=
+            "checkbox"><br>
+            restitution:<input id="eCDR" type="text" value="0.99"><br>
+            cof:<input id="eCDC" type="text" value="1.0"><br>
+            Body Collision Detection:<input id="bCD" type="checkbox"><br>
+            Sweep prune:<input id="sP" type="checkbox"><br>
+            Body impulse response:<input checked="checked" id="bIR" type=
+            "checkbox"><br>
+        </div>
+    </div><br>
+
+    <div style="font-weight: bold; margin-left: 10px">
+        Code:
+    </div>
+
+    <div id="code" style="margin-left: 10px;"></div><br>
+    <br>
+    <br>
+    <br>
+
+    <div style="text-align:center;">
+        ©2014 Manojit Ghosh.All rights reserved.
+    </div><script>
+$('input#b1').bind('mouseover', function() {
+    $('input#b1').attr("src", "images/Begin_hover.png");
+});
+$('input#b1').bind('mouseout', function() {
+    $('input#b1').attr("src", "images/Begin.png");
+});
+$('input#b2').bind('mouseover', function() {
+    $('input#b2').attr("src", "images/AddBehaviours_hover.png");
+});
+$('input#b2').bind('mouseout', function() {
+    $('input#b2').attr("src", "images/AddBehaviours.png");
+});
+$('input#b3').bind('mouseover', function() {
+    $('input#b3').attr("src", "images/Finish_hover.png");
+});
+$('input#b3').bind('mouseout', function() {
+    $('input#b3').attr("src", "images/Finish.png");
+});
+$('input#b4').bind('mouseover', function() {
+    $('input#b4').attr("src", "images/Show_hover.png");
+});
+$('input#b4').bind('mouseout', function() {
+    $('input#b4').attr("src", "images/Show.png");
+});
+$('input#s1').bind('mouseover', function() {
+    $('input#s1').attr("src", "images/Circle_hover.png");
+});
+$('input#s1').bind('mouseout', function() {
+    $('input#s1').attr("src", "images/Circle.png");
+});
+$('input#s2').bind('mouseover', function() {
+    $('input#s2').attr("src", "images/Polygon_hover.png");
+});
+$('input#s2').bind('mouseout', function() {
+    $('input#s2').attr("src", "images/Polygon.png");
+});
+$('#viewport').mousemove(function(e) {
+    var x = e.offsetX,
+        y = e.offsetY;
+    $('#xy').html(x + "," + y);
+});
+$('#viewport').mouseout(function(e) {
+    $('#xy').html("");
+});
+$('#pV').change(function() {
+    var selectedValue = $(this).val();
+    var targetDiv = $("#vertices").html("");
+    for (var i = 0; i < selectedValue; i++) {
+        targetDiv.append("x:<input id=\"x" + (i + 1) + "\" " + "/>y:<input id=\"y" + (i + 1) + "\" " + "/><br/>");
+    }
+});
+$('#cD').click(function() {
+    $('#advancedOptionsForCircle').toggle();
+});
+$('#pD').click(function() {
+    $('#advancedOptionsForPolygon').toggle();
+});
+$('#bD').click(function() {
+    $('#advancedOptionsForBehaviours').toggle();
+});
+
+    </script><script>
+var xScript = "";
+
+function fOnLoad() {
+    $('#advancedOptionsForCircle').hide();
+    $('#advancedOptionsForPolygon').hide();
+    $('#advancedOptionsForBehaviours').hide();
+}
+
+function fBegin() {
+    xString = "";
+    xString += "/*\n PhysicsJS Creator: Jasper Palfree \nAbsolutely Creator: Manojit Ghosh\n*/\n\n"; //Introduction
+    xString += "\n\nPhysics(function(world){var viewWidth = 712;var viewHeight = 360;var renderer = Physics.renderer('canvas', {el: 'viewport',width: viewWidth,height: viewHeight,meta: false,styles: {'circle' : {strokeStyle: '#ee405c',lineWidth: 1,fillStyle: '#ee405c',angleIndicator: '#ee405c'},'convex-polygon': {strokeStyle: '#ee405c',lineWidth: 1,fillStyle: '#ee405c',angleIndicator: 'hsla(0, 0%, 0%, 0)'}}});world.add( renderer );world.subscribe('step', function(){world.render();});var viewportBounds = Physics.aabb(0, 0, viewWidth, viewHeight);";
+}
+
+function addCircle() {
+    if (document.getElementById("cD").checked) xString += "\n\nworld.add(Physics.body('circle', {x: 0,y: 0,vx: 0,vy: 0,radius: 20}));";
+    else {
+        xString += "\n\nworld.add(Physics.body('circle', {x:" + document.getElementById("cX").value + ",y: " + document.getElementById("cY").value + ",vx: " + document.getElementById("cVx").value + ",vy: " + document.getElementById("cVy").value + ",angle: " + document.getElementById("cA").value + ",angularVelocity: " + document.getElementById("cAV").value + ",fixed: " + document.getElementById("cF").options[document.getElementById("cF").selectedIndex].value + ",mass: " + document.getElementById("cM").value + ",restitution: " + document.getElementById("cRe").value + ",cof: " + document.getElementById("cCof").value + ",radius: " + document.getElementById("cR").value + "}));";
+    }
+}
+
+function addPolygon() {
+    if (document.getElementById("pD").checked) xString += "\n\nworld.add(Physics.body('convex-polygon', {x: 0,y: 0,vertices: [{ x: 0, y: 0 },{ x: 0, y: 20 },{ x: 20, y: 20 },{ x: 20, y: 0 }]}));";
+    else {
+        var vArray = "[";
+        var l = document.getElementById("pV").value;
+        for (var i = 0; i < l; i++) {
+            vArray += "{x:" + document.getElementById("x" + (i + 1)).value + ",y:" + document.getElementById("y" + (i + 1)).value + "}";
+            if (i != l - 1) vArray += ","
+        }
+        vArray += "]";
+        xString += "\n\nworld.add(Physics.body('convex-polygon', {x:" + document.getElementById("pX").value + ",y: " + document.getElementById("pY").value + ",vx: " + document.getElementById("pVx").value + ",vy: " + document.getElementById("pVy").value + ",angle: " + document.getElementById("pA").value + ",angularVelocity: " + document.getElementById("pAV").value + ",fixed: " + document.getElementById("pF").options[document.getElementById("pF").selectedIndex].value + ",mass: " + document.getElementById("pM").value + ",restitution: " + document.getElementById("pRe").value + ",cof: " + document.getElementById("pCof").value + ",vertices:" + vArray + "}));";
+    }
+}
+
+function addBehaviours() {
+    if (document.getElementById("bD").checked) {
+        xString += "\n\nworld.add(Physics.behavior('edge-collision-detection', {aabb: viewportBounds,restitution: 0.99,cof: 1.0}));";
+        xString += "\n\nworld.add( Physics.behavior('body-impulse-response') );";
+        xString += "\n\nworld.add( Physics.behavior('constant-acceleration') );";
+    } else {
+        if (document.getElementById("gravity").checked) xString += "\n\nworld.add( Physics.behavior('constant-acceleration',{acc: { x: " + document.getElementById("gAX").value + ", y: " + document.getElementById("gAY").value + "}}));";
+        if (document.getElementById("nA").checked) xString += "\n\nworld.add( Physics.behavior('newtonian', { strength: " + document.getElementById("nAS").value + "}) );";
+        if (document.getElementById("eCD").checked) xString += "\n\nworld.add( Physics.behavior('edge-collision-detection', {aabb: viewportBounds,restitution: " + document.getElementById("eCDR").value + ",cof: " + document.getElementById("eCDC").value + "}));";
+        if (document.getElementById("bCD").checked) xString += "\n\nworld.add( Physics.behavior('body-collision-detection', { checkAll: false }) );";
+        if (document.getElementById("sP").checked) xString += "\n\nworld.add( Physics.behavior('sweep-prune') );";
+        if (document.getElementById("bIR").checked) xString += "\n\nworld.add( Physics.behavior('body-impulse-response') );";
+    }
+}
+
+function fFinish() {
+    xString += "\n\nPhysics.util.ticker.subscribe(function( time, dt ){world.step( time );});Physics.util.ticker.start();});"
+    var newXString = xString.split('\n').join('<br/>');
+    document.getElementById("code").innerHTML = newXString;
+}
+
+function show() {
+    eval(xString);
+}
+    </script>
+</body>
+</html>
