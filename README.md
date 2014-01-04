@@ -8,6 +8,7 @@ Absolutely is the easiest Physics JS Authoring Tool.
 
 The tool can be found here:
 * https://googledrive.com/host/0B8yu2s4Q9YD8OG00WElPQllYTW8/Home.htm
+* https://www.dropbox.com/s/x4mm9toe3jkbtn1/absolutely.rar
 
 ### Features:
 * Fast.
