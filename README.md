@@ -1,4 +1,4 @@
-absolutely
+Absolutely
 ==========
 
-PhysicsJS Authoring Tool
+PhysicsJS Authoring Tool.
