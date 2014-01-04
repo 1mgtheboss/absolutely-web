@@ -17,6 +17,9 @@ The tool can be found here:
 * Advanced options are available.
 * More features will be added soon.
 
+### Browser:
+* Google Chrome.
+
 ### Usage Instructions:
 For best results it is recommended that you read Physics JS documentation first:
 
@@ -24,7 +27,7 @@ For best results it is recommended that you read Physics JS documentation first:
 * https://github.com/wellcaffeinated/PhysicsJS/wiki
 
 
-**Bouncing Ball:**
+> **Bouncing Ball:**
 
 1. Click on Begin.
 2. Click on Circle.
@@ -33,7 +36,7 @@ For best results it is recommended that you read Physics JS documentation first:
 5. Click on Show.
 6. Done.
 
-**Naughty Square:**
+> **Naughty Square:**
 
 1. Click on Begin.
 2. Click on Polygon.
